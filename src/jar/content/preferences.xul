@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin" type="text/css"?>
+<?xml-stylesheet href="chrome://mailfrom/content/mailfrom.css" type="text/css"?>
+
+<!DOCTYPE dialog SYSTEM "chrome://mailfrom/locale/mailfrom.dtd">
+
+<prefwindow buttons="accept, cancel"
+            flex="1"
+            id="mailfrom-preferences"
+            onload="oMailFromPreferences.initPreferencesWindow()"
+            title="&mailfrom.preferences.title;"
+            xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  
+  <stringbundleset id="stringbundleset">
+    <stringbundle id="mailfrom-string-bundle" src="chrome://mailfrom/locale/mailfrom.properties"/>
+  </stringbundleset>
+
+  <script type="application/x-javascript" src="chrome://mailfrom/content/preferences.js" />
+  <script type="application/x-javascript" src="chrome://mailfrom/content/util.js" />
+  <command id="cmd-edit-service" disabled="true" oncommand="oMailFromPreferences.openServiceDialog(oMailFromPreferences.availableServicesList.value)"/>
+  <command id="cmd-new-service" oncommand="oMailFromPreferences.openServiceDialog()"/>
+  <command id="cmd-remove-service" disabled="true" oncommand="oMailFromPreferences.removeService('&mailfrom.preferences.service.remove.confirm;', document.getElementById('available-services').value)"/>
+  <command id="cmd-set-default" disabled="true" oncommand="oMailFromPreferences.setDefaultService(document.getElementById('available-services').value)"/>
+  
+  <prefpane flex="1" onpaneload="oMailFromPreferences.initPreferencesPane()">
+    <preferences id="preferences-block">
+      <preference id="pref-available-services" name="extensions.mailfrom.services" type="string"/>
+      <preference id="pref-default-service" name="extensions.mailfrom.default.service" type="string"/>
+      <preference id="pref-open-in" name="extensions.mailfrom.open.in" type="int"/>
+    </preferences>
+    
+    <groupbox flex="1" orient="vertical">
+      <caption label="&mailfrom.preferences.available.services;" />
+      <hbox flex="1">
+        <richlistbox flex="1" id="available-services" onselect="oMailFromPreferences.mailServiceSelected()">
+        </richlistbox>
+        <vbox>
+          <button label="&mailfrom.preferences.service.button.setdefault;" command="cmd-set-default" />
+          <button label="&mailfrom.preferences.service.button.new;" command="cmd-new-service" />
+          <button label="&mailfrom.preferences.service.button.edit;" command="cmd-edit-service" />
+          <button label="&mailfrom.preferences.service.button.remove;" command="cmd-remove-service" />
+        </vbox>
+      </hbox>
+      <description control="available-services" flex="1">&mailfrom.preferences.available.services.description;</description>
+    </groupbox>
+        
+    <groupbox id="grp-open-in" flex="1" orient="vertical">
+      <caption label="&mailfrom.preferences.open.in;" />
+      <radiogroup flex="1" id="open-in" orient="horizontal" preference="pref-open-in">
+      </radiogroup>
+      <description>&mailfrom.preferences.open.in.description;</description>
+    </groupbox>
+  </prefpane>
+</prefwindow>

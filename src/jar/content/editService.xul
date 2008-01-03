@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin" type="text/css"?>
+
+<!DOCTYPE dialog SYSTEM "chrome://mailfrom/locale/mailfrom.dtd">
+
+<prefwindow buttons="none"
+            id="mailfrom-edit-service"
+            onbeforeaccept="oMailFromEditService.handleBeforeAccept()"
+            title="&mailfrom.preferences.editservice.title;"
+            type="child"
+            xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  
+  <script type="application/x-javascript" src="chrome://mailfrom/content/editservice.js" />
+  
+  <prefpane onpaneload="oMailFromEditService.initPreferencesPane()">
+    <preferences id="edit-service-preferences">
+      <preference id="pref-available-services" name="extensions.mailfrom.services" type="string"/>
+      <preference id="pref-service-enabled" name="" type="bool"/>
+      <preference id="pref-service-name" name="" type="string"/>
+      <preference id="pref-service-url" name="" type="string"/>
+    </preferences>
+    <vbox flex="1">
+      <hbox align="end">
+        <label control="edit-service-name" value="&mailfrom.preferences.editservice.service.name;"/>
+        <textbox id="edit-service-name" oninput="oMailFromEditService.validateInput()" preference="pref-service-name"/>
+      </hbox>
+      <hbox align="end">
+        <label control="edit-service-url" value="&mailfrom.preferences.editservice.service.url;"/>
+        <textbox id="edit-service-url" oninput="oMailFromEditService.validateInput()" preference="pref-service-url"/>
+      </hbox>
+      <hbox align="end">
+        <button disabled="true" id="edit-service-ok" label="&mailfrom.preferences.editservice.button.ok;" oncommand="document.getElementById('mailfrom-edit-service').acceptDialog()"/>
+        <button id="edit-service-cancel" label="&mailfrom.preferences.editservice.button.cancel;" oncommand="document.getElementById('mailfrom-edit-service').cancelDialog()"/>
+      </hbox>
+    </vbox>
+  </prefpane>
+</prefwindow>

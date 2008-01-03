@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
+
+<!DOCTYPE dialog SYSTEM "chrome://mailfrom/locale/mailfrom.dtd">
+
+<overlay id="mailfromOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/x-javascript" src="chrome://mailfrom/content/mailfrom.js" />
+  <script type="application/x-javascript" src="chrome://mailfrom/content/util.js" />
+
+  <popup id="contentAreaContextMenu">
+    <menu id="context-mailfrom" insertafter="context-openlinkintab" label="&mailfrom.contextmenu.label;" collapsed="true">
+      <menupopup id="context-mailfrom-popup">
+        <menuseparator id="mailfrom-context-separator" />
+        <menuitem label="&mailfrom.contextmenu.preferences.label;" oncommand="window.openDialog('chrome://mailfrom/content/preferences.xul')" />
+      </menupopup>
+    </menu>
+  </popup>
+</overlay>

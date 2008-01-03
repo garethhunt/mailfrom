@@ -1,0 +1,26 @@
+<!-- Preferences -->
+<!ENTITY mailfrom.preferences.title "MailFrom Preferences">
+<!ENTITY mailfrom.preferences.groupbox.title "Mail Services">
+<!ENTITY mailfrom.preferences.open.in "Open In:">
+<!ENTITY mailfrom.preferences.open.in.description "New Tab only works from the context menu.  In the browser, it will open in the same window.">
+<!ENTITY mailfrom.preferences.default.service "Select default service:">
+<!ENTITY mailfrom.preferences.available.services "Available mail services:">
+<!ENTITY mailfrom.preferences.available.services.description "Use the checkboxes above to enable services in the context (right click) menu.">
+<!ENTITY mailfrom.preferences.service.enabled.label "Enabled">
+<!ENTITY mailfrom.preferences.service.name.label "Name">
+<!ENTITY mailfrom.preferences.service.button.edit "Edit">
+<!ENTITY mailfrom.preferences.service.button.new "New">
+<!ENTITY mailfrom.preferences.service.button.remove "Remove">
+<!ENTITY mailfrom.preferences.service.button.setdefault "Set Default">
+<!ENTITY mailfrom.preferences.service.remove.confirm "Do you want to remove ">
+
+<!-- Edit Service Dialog -->
+<!ENTITY mailfrom.preferences.editservice.button.cancel "Cancel">
+<!ENTITY mailfrom.preferences.editservice.button.ok "OK">
+<!ENTITY mailfrom.preferences.editservice.title "Edit Mail Service">
+<!ENTITY mailfrom.preferences.editservice.service.name "Name:">
+<!ENTITY mailfrom.preferences.editservice.service.url "URL:">
+
+<!-- Context Menu -->
+<!ENTITY mailfrom.contextmenu.label "Mail From Services">
+<!ENTITY mailfrom.contextmenu.preferences.label "Preferences">

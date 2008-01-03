@@ -1,0 +1,6 @@
+# Firefox / Flock
+overlay	chrome://browser/content/browser.xul	chrome://mailfrom/content/mailfromOverlay.xul
+
+content	mailfrom	jar:chrome/mailfrom.jar!/content/
+
+locale	mailfrom	en-US	jar:chrome/mailfrom.jar!/locale/en-US/
