@@ -1,0 +1,19 @@
+#
+# build.debug - Copies the extension code to the correct extension directory in your Firefox profile
+#
+build.version=0.1.0
+
+build.debug=true
+build.basedir=C:/Projects/mailfrom
+build.srcdir=${build.basedir}/src
+build.targetdir=${build.basedir}/target
+
+# xpidl properties
+xpidl.dir=C:/software/gecko-sdk/bin
+xpidl.exec=xpidl.exe
+
+# Firefox properties
+build.mozilla.firefox.home=C:/Program Files/Mozilla Firefox
+build.mozilla.firefox.extension.name=mailfrom
+build.mozilla.firefox.extension.uuid={5777d53f-b496-4129-a39a-ea1c52f01fba}
+build.mozilla.firefox.extension.home=${user.home}/Application Data/Mozilla/Firefox/Profiles/development/extensions
