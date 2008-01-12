@@ -6,18 +6,20 @@
 <prefwindow buttons="none"
             id="mailfrom-edit-service"
             onbeforeaccept="oMailFromEditService.handleBeforeAccept()"
+            onload="oMailFromEditService.validateInput()"
             title="&mailfrom.preferences.editservice.title;"
             type="child"
             xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   
   <script type="application/x-javascript" src="chrome://mailfrom/content/editservice.js" />
+  <script type="application/x-javascript" src="chrome://mailfrom/content/util.js" />
   
   <prefpane onpaneload="oMailFromEditService.initPreferencesPane()">
     <preferences id="edit-service-preferences">
       <preference id="pref-available-services" name="extensions.mailfrom.services" type="string"/>
-      <preference id="pref-service-enabled" name="" type="bool"/>
+      <!-- <preference id="pref-service-enabled" name="" type="bool"/>
       <preference id="pref-service-name" name="" type="string"/>
-      <preference id="pref-service-url" name="" type="string"/>
+      <preference id="pref-service-url" name="" type="string"/> -->
     </preferences>
     <vbox flex="1">
       <hbox align="end">

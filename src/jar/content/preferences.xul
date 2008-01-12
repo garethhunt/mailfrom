@@ -17,7 +17,7 @@
 
   <script type="application/x-javascript" src="chrome://mailfrom/content/preferences.js" />
   <script type="application/x-javascript" src="chrome://mailfrom/content/util.js" />
-  <command id="cmd-edit-service" disabled="true" oncommand="oMailFromPreferences.openServiceDialog(oMailFromPreferences.availableServicesList.value)"/>
+  <command id="cmd-edit-service" disabled="true" oncommand="oMailFromPreferences.openServiceDialog(document.getElementById('available-services').value)"/>
   <command id="cmd-new-service" oncommand="oMailFromPreferences.openServiceDialog()"/>
   <command id="cmd-remove-service" disabled="true" oncommand="oMailFromPreferences.removeService('&mailfrom.preferences.service.remove.confirm;', document.getElementById('available-services').value)"/>
   <command id="cmd-set-default" disabled="true" oncommand="oMailFromPreferences.setDefaultService(document.getElementById('available-services').value)"/>

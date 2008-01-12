@@ -18,55 +18,91 @@ var oMailFromEditService = {
 	validUrlRe: new RegExp("http://[a-zA-Z0-9\.]+?\.[a-z]{3,6}/?[a-zA-Z0-9\.\?&\$]*"),
 	
 	initPreferencesPane: function() {
+		oMailFromUtil.debug("Entered initPreferencesPane")
 		oMailFromEditService.serviceKey = window.arguments[0]
 		
 		if (oMailFromEditService.serviceKey == undefined) {
 			oMailFromEditService.serviceKey = oMailFromEditService.customKeyPrefix + oMailFromEditService.randomStringGen()
 		}
+		oMailFromUtil.debug("oMailFromEditService.serviceKey: " + oMailFromEditService.serviceKey)
 		
-		document.getElementById("pref-service-enabled").name = oMailFromEditService.prefServicePrefix + oMailFromEditService.serviceKey + oMailFromEditService.prefServiceEnabledSuffix
-		document.getElementById("pref-service-name").name = oMailFromEditService.prefServicePrefix + oMailFromEditService.serviceKey + oMailFromEditService.prefServiceNameSuffix
-		document.getElementById("pref-service-url").name = oMailFromEditService.prefServicePrefix + oMailFromEditService.serviceKey + oMailFromEditService.prefServiceUrlSuffix
+		oMailFromEditService.createPreference("pref-service-enabled", oMailFromEditService.prefServicePrefix + oMailFromEditService.serviceKey + oMailFromEditService.prefServiceEnabledSuffix, "bool")
+		oMailFromEditService.createPreference("pref-service-name", oMailFromEditService.prefServicePrefix + oMailFromEditService.serviceKey + oMailFromEditService.prefServiceNameSuffix, "string")
+		oMailFromEditService.createPreference("pref-service-url", oMailFromEditService.prefServicePrefix + oMailFromEditService.serviceKey + oMailFromEditService.prefServiceUrlSuffix, "string")
+		oMailFromUtil.debug("Exiting initPreferencesPane")
+	},
+	
+	createPreference: function(id, name, type) {
+		var prf = document.createElement("preference")
+		prf.id = id
+		prf.name = name
+		prf.type = type
+		document.getElementById("edit-service-preferences").appendChild(prf)
 	},
 	
 	handleBeforeAccept: function() {
+		oMailFromUtil.debug("Entered handleBeforeAccept")
+		oMailFromUtil.debug("Enabled: " + document.getElementById("pref-service-enabled").value)
+		oMailFromUtil.debug("Name: " + document.getElementById("pref-service-name").value)
+		oMailFromUtil.debug("Value: " + document.getElementById("pref-service-url").value)
 		// Ensure the preferences are set
-		document.getElementById("pref-service-enabled").value = true
-		document.getElementById("pref-service-name").value = document.getElementById("edit-service-name").value
-		document.getElementById("pref-service-url").value = document.getElementById("edit-service-url").value
+		if (document.getElementById("pref-service-enabled").value == null) {
+			document.getElementById("pref-service-enabled").value = true	
+		}
+		if (document.getElementById("pref-service-name").value.length == 0) {
+			document.getElementById("pref-service-name").value = document.getElementById("edit-service-name").value
+		}
+		if (document.getElementById("pref-service-url").value.length == 0) {
+			document.getElementById("pref-service-url").value = document.getElementById("edit-service-url").value
+		}
 		
-		// Add the key to the available services list
-		document.getElementById("pref-available-services").value += ("," + oMailFromEditService.serviceKey)
-		
-		// Add the new entry to the bottom of the available services list
-		var availableServices = window.opener.document.getElementById("available-services")
-		
-		// Create a preference to support enabling/disabling the service and add it to the set
-		var prf = document.createElement("preference")
-		prf.id = "pref-" + oMailFromEditService.serviceKey + "-enabled"
-		prf.name = "extensions.mailfrom.service." + oMailFromEditService.serviceKey + ".enabled"
-		prf.type = "bool"
-		prf.value = document.getElementById("pref-service-enabled").value
-		window.opener.document.getElementById("preferences-block").appendChild(prf)
-		
-		// Create a new rich list item
-		var rli = document.createElement("richlistitem")
-		rli.value = oMailFromEditService.serviceKey
-		
-		// Append a checkbox to the item
-		var cb = document.createElement("checkbox")
-		cb.id = window.opener.oMailFromPreferences.cbPrefix + oMailFromEditService.serviceKey
-		cb.setAttribute("checked", "true")
-		cb.setAttribute("preference", prf.id)
-		rli.appendChild(cb)
-		
-		// Append a label to the item
-		// (not using the checkbox label attribute so that the item can be selected without modifying the enabled preference)
-		var lb = document.createElement("label")
-		lb.setAttribute("value", document.getElementById("pref-service-name").value)
-		rli.appendChild(lb)
-		
-		window.opener.document.getElementById("available-services").appendChild(rli)
+		// If necessary, add the key to the available services list
+		if (document.getElementById("pref-available-services").value.indexOf(oMailFromEditService.serviceKey) == -1) {
+			oMailFromUtil.debug("New service, so adding to the list")
+			document.getElementById("pref-available-services").value += ("," + oMailFromEditService.serviceKey)
+			
+			// Add the new entry to the bottom of the available services list
+			var availableServices = window.opener.document.getElementById("available-services")
+			
+			// Create a preference to support enabling/disabling the service and add it to the set
+			var prf = document.createElement("preference")
+			prf.id = "pref-" + oMailFromEditService.serviceKey + "-enabled"
+			prf.name = "extensions.mailfrom.service." + oMailFromEditService.serviceKey + ".enabled"
+			prf.type = "bool"
+			prf.value = document.getElementById("pref-service-enabled").value
+			window.opener.document.getElementById("preferences-block").appendChild(prf)
+			
+			// Create a new rich list item
+			var rli = document.createElement("richlistitem")
+			rli.id = "rli-" + oMailFromEditService.serviceKey
+			rli.value = oMailFromEditService.serviceKey
+			
+			// Append a checkbox to the item
+			var cb = document.createElement("checkbox")
+			cb.id = window.opener.oMailFromPreferences.cbPrefix + oMailFromEditService.serviceKey
+			cb.setAttribute("checked", "true")
+			cb.setAttribute("preference", prf.id)
+			rli.appendChild(cb)
+			
+			// Append a label to the item
+			// (not using the checkbox label attribute so that the item can be selected without modifying the enabled preference)
+			var lb = document.createElement("label")
+			lb.id = "lbl-" + document.getElementById("pref-service-name").value
+			lb.setAttribute("value", document.getElementById("pref-service-name").value)
+			rli.appendChild(lb)
+			
+			window.opener.document.getElementById("available-services").appendChild(rli)
+		} else {
+			oMailFromUtil.debug("Existing service, so modifying the existing entry")
+			
+			// Update the existing items preferences
+			window.opener.document.getElementById("pref-" + oMailFromEditService.serviceKey + "-name").value = document.getElementById("pref-service-name").value
+			window.opener.document.getElementById("pref-" + oMailFromEditService.serviceKey + "-url").value = document.getElementById("pref-service-url").value
+			
+			var lbl = window.opener.document.getElementById("lbl-" + oMailFromEditService.serviceKey)
+			lbl.value = document.getElementById("pref-service-name").value
+		}
+		oMailFromUtil.debug("Exiting handleBeforeAccept")
 	},
 	
 	/*

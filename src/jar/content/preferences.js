@@ -82,7 +82,7 @@ var oMailFromPreferences = {
 	},
 	
 	// Modify the disabled property of the checkboxes when the default service selection is modified
-	defaultMailServiceSelected: function() {
+	/* defaultMailServiceSelected: function() {
 		oMailFromUtil.debug("Entered defaultMailServiceSelected")
 		
 		// Get the selected menuitem
@@ -103,11 +103,12 @@ var oMailFromPreferences = {
 	enableServiceCheckbox: function(sServiceKey) {
 		oMailFromUtil.debug("Entered enableServiceCheckbox: " + oMailFromPreferences.cbPrefix + sServiceKey)
 		document.getElementById(oMailFromPreferences.cbPrefix + sServiceKey).disabled = false
-	},
+	}, */
 	
 	mailServiceSelected: function() {
 		oMailFromUtil.debug("Entered mailServiceSelected")
 		var selectedService = document.getElementById("available-services").value
+		oMailFromUtil.debug("available-services: " + selectedService)
 		
 		// If this is the default service, disable all but the New button
 		if (selectedService == document.getElementById("pref-default-service").value) {
