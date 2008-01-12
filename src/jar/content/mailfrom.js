@@ -1,5 +1,7 @@
 var oMailFrom = {
 	
+	contextSeparator: null,
+	
 	// Localised string properties bundle
 	strings: null,
 	urlRE: new RegExp("mailto\\:", "i"),
@@ -11,6 +13,8 @@ var oMailFrom = {
 	init: function() {
 		oMailFromUtil.init()
 		oMailFromUtil.debug("Entered init()")
+		
+		oMailFrom.contextSeparator = document.getElementById("mailfrom-context-separator")
 		
 		oMailFrom.strings = document.getElementById("mailfrom-string-bundle")
 		
@@ -115,16 +119,23 @@ var oMailFrom = {
 	},
 	
 	appendMailService: function(sServiceKey) {
+		oMailFromUtil.debug("Entered appendMailService: " + sServiceKey)
+		var contextNode = document.getElementById("context-mailfrom-" + sServiceKey)
+		if (contextNode != null) {
+			document.getElementById("context-mailfrom-popup").removeChild(contextNode)
+		}
+		
 		if (oMailFromUtil.getPreferenceServiceEnabled(sServiceKey)) {
 			var sServiceName = oMailFromUtil.getPreferenceServiceName(sServiceKey)
 			// Create a new menuitem
 			var menuitem = document.createElement("menuitem")
 			menuitem.id = "context-mailfrom-" + sServiceKey
-			menuitem.setAttribute("label", sServiceKey)
+			menuitem.setAttribute("label", sServiceName)
 
 			// Add the menuitem to the popup
-			document.getElementById("context-mailfrom-popup").appendChild(menuitem)
+			document.getElementById("context-mailfrom-popup").insertBefore(menuitem, oMailFrom.contextSeparator)
 		}
+		oMailFromUtil.debug("Exiting appendMailService")
 	}
 }
 
