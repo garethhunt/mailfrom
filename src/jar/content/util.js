@@ -69,7 +69,6 @@ var oMailFromUtil = {
 	// Retrieve a preference
 	getPreference: function(sType, sName) {
 		var prefValue = null
-		
 		if (sType=='bool') {
 			prefValue = oMailFromUtil.prefService.getBoolPref(sName)
 		} else if (sType=='char') {
@@ -78,6 +77,16 @@ var oMailFromUtil = {
 			prefValue = oMailFromUtil.prefService.getIntPref(sName)
 		}
 		return prefValue
+	},
+	
+	/*
+	 * Extract the email address from the anchor tag provided
+	 * TODO Use a regular expression
+	 */
+	getEmailFromHref: function(oAnchor) {
+		var sEmail = oAnchor.href.substring(7)
+		oMailFromUtil.debug("sEmail: " + sEmail)
+		return sEmail
 	},
 	
 	/*
