@@ -81,30 +81,6 @@ var oMailFromPreferences = {
 		document.getElementById("open-in").value = iOpenIn
 	},
 	
-	// Modify the disabled property of the checkboxes when the default service selection is modified
-	/* defaultMailServiceSelected: function() {
-		oMailFromUtil.debug("Entered defaultMailServiceSelected")
-		
-		// Get the selected menuitem
-		var sSelectedServiceKey = oMailFromPreferences.defaultServiceDropdown.selectedItem.value
-		oMailFromUtil.debug("Selected Service Key: " + sSelectedServiceKey)
-		
-		// Loop over the service checkboxes and make sure they are not disabled
-		var availableServiceKeys = document.getElementById("pref-available-services").value.split(",")
-		availableServiceKeys.forEach(oMailFromPreferences.enableServiceCheckbox)
-		
-		// Update the available services list, to modify the checklist
-		document.getElementById(oMailFromPreferences.cbPrefix + sSelectedServiceKey).disabled = true
-		
-		oMailFromUtil.debug("Exiting defaultMailServiceSelected")
-	},
-	
-	// Enable the specified checkbox
-	enableServiceCheckbox: function(sServiceKey) {
-		oMailFromUtil.debug("Entered enableServiceCheckbox: " + oMailFromPreferences.cbPrefix + sServiceKey)
-		document.getElementById(oMailFromPreferences.cbPrefix + sServiceKey).disabled = false
-	}, */
-	
 	mailServiceSelected: function() {
 		oMailFromUtil.debug("Entered mailServiceSelected")
 		var selectedService = document.getElementById("available-services").value
