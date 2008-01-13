@@ -30,7 +30,6 @@ var oMailFrom = {
 			contextMenu.addEventListener("popupshowing", oMailFrom.mailfromShowHideServices, false)
 			oMailFromUtil.debug("Setup context menu event listener")
 		}
-		
 		oMailFromUtil.debug("Exiting init()")
 		return true
 	},
@@ -68,12 +67,10 @@ var oMailFrom = {
 		oMailFromUtil.debug("Entered updateMailtoURL()")
 		
 		// Get the email address
-		var sEmail = oAnchor.href.substring(7)
+		var sEmail = oMailFromUtil.getEmailFromHref(oAnchor)
 		
 		// TODO If there is a query string, strip it from the email
 		// TODO Extract the subject from the query string 
-
-		oMailFromUtil.debug("sEmail: " + sEmail)
 
 		// Get the preferred mail service
 		var preferredServiceUrl = oMailFromUtil.getPreferenceServiceUrl(oMailFromUtil.getPreferenceDefaultServiceKey())
@@ -81,7 +78,8 @@ var oMailFrom = {
 		// Zero length service URL implies the default service, so don't modify the mailto href
 		if (preferredServiceUrl.length != 0) {
 			// Replace the email address
-			preferredServiceUrl = preferredServiceUrl.replace(oMailFrom.replaceTo, sEmail)
+			//preferredServiceUrl = preferredServiceUrl.replace(oMailFrom.replaceTo, sEmail)
+			preferredServiceUrl = oMailFrom.setServiceUrlWithParams(oMailFromUtil.getPreferenceDefaultServiceKey())
 			
 			// Get the preferred URL target
 			var iOpenIn = oMailFromUtil.getPreferenceOpenIn()
@@ -101,6 +99,9 @@ var oMailFrom = {
 		return preferredServiceUrl
 	},
 	
+	/*
+	 * Update the context menu
+	 */
 	mailfromShowHideServices: function(oEvent) {
 		oMailFromUtil.debug("Entered mailfromShowHideServices: " + oEvent.target.id)
 		if (gContextMenu.onMailtoLink && oEvent.target.id == "contentAreaContextMenu") {
@@ -118,6 +119,9 @@ var oMailFrom = {
 		oMailFromUtil.debug("Exiting mailfromShowHideServices")
 	},
 	
+	/*
+	 * Append a menu item to the mailfrom context menu
+	 */
 	appendMailService: function(sServiceKey) {
 		oMailFromUtil.debug("Entered appendMailService: " + sServiceKey)
 		var contextNode = document.getElementById("context-mailfrom-" + sServiceKey)
@@ -127,15 +131,51 @@ var oMailFrom = {
 		
 		if (oMailFromUtil.getPreferenceServiceEnabled(sServiceKey)) {
 			var sServiceName = oMailFromUtil.getPreferenceServiceName(sServiceKey)
+			var sServiceUrl = oMailFrom.setServiceUrlWithParams(sServiceKey)
+			
 			// Create a new menuitem
 			var menuitem = document.createElement("menuitem")
 			menuitem.id = "context-mailfrom-" + sServiceKey
 			menuitem.setAttribute("label", sServiceName)
+			menuitem.setAttribute("oncommand", oMailFrom.setContextOnClick(sServiceUrl))
 
 			// Add the menuitem to the popup
 			document.getElementById("context-mailfrom-popup").insertBefore(menuitem, oMailFrom.contextSeparator)
 		}
 		oMailFromUtil.debug("Exiting appendMailService")
+	},
+	
+	/*
+	 * Modify the service URL
+	 */
+	setServiceUrlWithParams: function(sServiceKey) {
+		var sServiceUrl = oMailFromUtil.getPreferenceServiceUrl(sServiceKey)
+		
+		if (sServiceUrl.length > 0) {
+			// Set $TO
+			sServiceUrl = sServiceUrl.replace(oMailFrom.replaceTo, oMailFromUtil.getEmailFromHref(document.popupNode))
+		} else { // The service has no URL, so it must be the default service
+			sServiceUrl = document.popupNode.href
+		}
+		return sServiceUrl
+	},
+	
+	setContextOnClick: function(sServiceUrl) {
+		// Get the preferred URL target
+		var iOpenIn = oMailFromUtil.getPreferenceOpenIn()
+		var action
+		
+		switch (iOpenIn) {
+			case 0: // New window
+				action = "window.open('" + sServiceUrl + "', null)"
+				break
+			case 1: // New tab
+				action = "gBrowser.addTab('" + sServiceUrl + "', null)"
+				break
+			default: // Current tab
+				action =  "gBrowser.loadURI('" + sServiceUrl + "')"
+		}
+		return action
 	}
 }
 
