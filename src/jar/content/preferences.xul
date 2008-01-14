@@ -17,9 +17,6 @@
 
   <script type="application/x-javascript" src="chrome://mailfrom/content/preferences.js" />
   <script type="application/x-javascript" src="chrome://mailfrom/content/util.js" />
-  <command id="cmd-edit-service" disabled="true" oncommand="oMailFromPreferences.openServiceDialog(document.getElementById('available-services').value)"/>
-  <command id="cmd-new-service" oncommand="oMailFromPreferences.openServiceDialog()"/>
-  <command id="cmd-remove-service" disabled="true" oncommand="oMailFromPreferences.removeService('&mailfrom.preferences.service.remove.confirm;', document.getElementById('available-services').value)"/>
   <command id="cmd-set-default" disabled="true" oncommand="oMailFromPreferences.setDefaultService(document.getElementById('available-services').value)"/>
   
   <prefpane flex="1" onpaneload="oMailFromPreferences.initPreferencesPane()">
@@ -36,9 +33,6 @@
         </richlistbox>
         <vbox>
           <button label="&mailfrom.preferences.service.button.setdefault;" command="cmd-set-default" />
-          <button label="&mailfrom.preferences.service.button.new;" command="cmd-new-service" />
-          <button label="&mailfrom.preferences.service.button.edit;" command="cmd-edit-service" />
-          <button label="&mailfrom.preferences.service.button.remove;" command="cmd-remove-service" />
         </vbox>
       </hbox>
       <description control="available-services" flex="1">&mailfrom.preferences.available.services.description;</description>

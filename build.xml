@@ -52,7 +52,7 @@
 		<mkdir dir="${build.targetdir}"/>
 		<mkdir dir="${build.targetdir}/interface"/>
 		<mkdir dir="${build.targetdir}/jar/chrome"/>
-		<mkdir dir="${build.targetdir}/jar/components"/>
+		<!-- <mkdir dir="${build.targetdir}/jar/components"/> -->
 		<mkdir dir="${build.targetdir}/xpi"/>
 	</target>
 	
@@ -63,6 +63,9 @@
 		<!-- Copy the files in ${srcdir}/jar to ${targetdir}/chrome -->
 		<copy todir="${build.targetdir}/chrome" filtering="true">
 			<fileset dir="${build.srcdir}/jar">
+				<!-- Excluse editservice until the function is added -->
+				<exclude name="**/editservice.js" />
+				<exclude name="**/editService.xul" />
 				<!-- Exclude the images as the filtering corrupts them -->
 				<exclude name="**/*.gif" />
 				<exclude name="**/*.jpg" />
