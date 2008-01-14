@@ -48,10 +48,9 @@ var oMailFrom = {
 		
 		for (var i=0;i<aAnchorTags.length;i++) {
 			// Work out how to handle mailto links
-			var href = aAnchorTags[i].href
-			//if (href.search(oMailFrom.urlRE) != -1) {
-			if (oMailFrom.isMailtoLink(href) != -1) {
+			if (oMailFrom.isMailtoLink(aAnchorTags[i].href) != -1) {
 				// Modify the anchor
+				oMailFromUtil.debug("Anchor: " + i + ", " + aAnchorTags[i])
 				oMailFrom.updateMailtoUrl(aAnchorTags[i])
 			}
 		}
@@ -64,22 +63,12 @@ var oMailFrom = {
 	},
 	
 	updateMailtoUrl: function(oAnchor) {
-		oMailFromUtil.debug("Entered updateMailtoURL()")
+		oMailFromUtil.debug("Entered updateMailtoURL(): " + oAnchor.href)
 		
-		// Get the email address
-		var sEmail = oMailFromUtil.getEmailFromHref(oAnchor)
-		
-		// TODO If there is a query string, strip it from the email
-		// TODO Extract the subject from the query string 
-
-		// Get the preferred mail service
-		var preferredServiceUrl = oMailFromUtil.getPreferenceServiceUrl(oMailFromUtil.getPreferenceDefaultServiceKey())
-		
-		// Zero length service URL implies the default service, so don't modify the mailto href
-		if (preferredServiceUrl.length != 0) {
+		// If this is the System Demail Mail Client
+		if (oMailFromUtil.getPreferenceDefaultServiceKey() != "default") {
 			// Replace the email address
-			//preferredServiceUrl = preferredServiceUrl.replace(oMailFrom.replaceTo, sEmail)
-			preferredServiceUrl = oMailFrom.setServiceUrlWithParams(oMailFromUtil.getPreferenceDefaultServiceKey())
+			preferredServiceUrl = oMailFrom.setServiceUrlWithParams(oMailFromUtil.getPreferenceDefaultServiceKey(), oAnchor.href)
 			
 			// Get the preferred URL target
 			var iOpenIn = oMailFromUtil.getPreferenceOpenIn()
@@ -91,7 +80,7 @@ var oMailFrom = {
 				/* case 1: // New tab - doesn't work from a browser window because of security model, so open in current window
 					oAnchor.href = preferredServiceUrl
 					break */
-				default: // New current tab
+				default: // Current tab
 					oAnchor.setAttribute("onclick", "window.location='" + preferredServiceUrl + "'; return false")
 			}
 		} // Else, this is the default local email service, so do not modify the behaviour
@@ -131,7 +120,7 @@ var oMailFrom = {
 		
 		if (oMailFromUtil.getPreferenceServiceEnabled(sServiceKey)) {
 			var sServiceName = oMailFromUtil.getPreferenceServiceName(sServiceKey)
-			var sServiceUrl = oMailFrom.setServiceUrlWithParams(sServiceKey)
+			var sServiceUrl = oMailFrom.setServiceUrlWithParams(sServiceKey, gContextMenu.linkURL)
 			
 			// Create a new menuitem
 			var menuitem = document.createElement("menuitem")
@@ -148,15 +137,18 @@ var oMailFrom = {
 	/*
 	 * Modify the service URL
 	 */
-	setServiceUrlWithParams: function(sServiceKey) {
+	setServiceUrlWithParams: function(sServiceKey, sHref) {
+		oMailFromUtil.debug("Entered setServiceUrlWithParams: " + sServiceKey + ", " + sHref)
 		var sServiceUrl = oMailFromUtil.getPreferenceServiceUrl(sServiceKey)
 		
 		if (sServiceUrl.length > 0) {
 			// Set $TO
-			sServiceUrl = sServiceUrl.replace(oMailFrom.replaceTo, oMailFromUtil.getEmailFromHref(document.popupNode))
+			sServiceUrl = sServiceUrl.replace(oMailFrom.replaceTo, oMailFromUtil.getEmailFromHref(sHref))
+			// TODO Extract the subject from the query string 
 		} else { // The service has no URL, so it must be the default service
-			sServiceUrl = document.popupNode.href
+			sServiceUrl = sHref
 		}
+		oMailFromUtil.debug("Exiting setServiceUrlWithParams")
 		return sServiceUrl
 	},
 	

@@ -81,12 +81,17 @@ var oMailFromUtil = {
 	
 	/*
 	 * Extract the email address from the anchor tag provided
-	 * TODO Use a regular expression
+	 * TODO If there is a query string, strip it from the email
 	 */
-	getEmailFromHref: function(oAnchor) {
-		var sEmail = oAnchor.href.substring(7)
-		oMailFromUtil.debug("sEmail: " + sEmail)
-		return sEmail
+	getEmailFromHref: function(sHref) {
+		oMailFromUtil.debug("Entered getEmailFromHref: " + sHref)
+		var re = new RegExp("mailto:(.[^\?]*)\?.*", "i")
+		var aEmail = re.exec(sHref)
+		for (var i=0; i<aEmail.length; i++) {
+			oMailFromUtil.debug("aEmail: " + i + ", " + aEmail[i])
+		}
+		oMailFromUtil.debug("Exiting getEmailFromHref: " + aEmail[1])
+		return aEmail[1]
 	},
 	
 	/*
