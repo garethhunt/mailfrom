@@ -88,8 +88,6 @@ var oMailFromPreferences = {
 		
 		// If this is the default service, disable all but the New button
 		if (selectedService == document.getElementById("pref-default-service").value) {
-			document.getElementById("cmd-edit-service").setAttribute("disabled", "true")
-			document.getElementById("cmd-remove-service").setAttribute("disabled", "true")
 			document.getElementById("cmd-set-default").setAttribute("disabled", "true")
 		} else {
 			document.getElementById("cmd-set-default").setAttribute("disabled", "false")
@@ -166,8 +164,6 @@ var oMailFromPreferences = {
 		
 		// Set the new default service and disable buttons
 		document.getElementById("pref-default-service").value = sSelectedKey
-		document.getElementById("cmd-edit-service").setAttribute("disabled", "true")
-		document.getElementById("cmd-remove-service").setAttribute("disabled", "true")
 		document.getElementById("cmd-set-default").setAttribute("disabled", "true")
 		oMailFromUtil.debug("Exiting setDefaultService")
 	}
