@@ -17,7 +17,7 @@
 
   <script type="application/x-javascript" src="chrome://mailfrom/content/preferences.js" />
   <script type="application/x-javascript" src="chrome://mailfrom/content/util.js" />
-  <command id="cmd-set-default" disabled="true" oncommand="oMailFromPreferences.setDefaultService(document.getElementById('available-services').value)"/>
+  <command id="cmd-set-default" disabled="true" oncommand="oMailFromPreferences.setDefaultService(document.getElementById('available-services').selectedItem.value)"/>
   
   <prefpane flex="1" onpaneload="oMailFromPreferences.initPreferencesPane()">
     <preferences id="preferences-block">

@@ -83,7 +83,7 @@ var oMailFromPreferences = {
 	
 	mailServiceSelected: function() {
 		oMailFromUtil.debug("Entered mailServiceSelected")
-		var selectedService = document.getElementById("available-services").value
+		var selectedService = document.getElementById("available-services").selectedItem.value
 		oMailFromUtil.debug("available-services: " + selectedService)
 		
 		// If this is the default service, disable all but the New button
