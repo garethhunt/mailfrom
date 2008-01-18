@@ -1,0 +1,17 @@
+--Mailfrom Release Notes --
+
+See bugzilla for roadmap
+
+Release 0.1.0, 17 January 2008
+
+* Initial release
+* Opens mailto links for composition in webamil applications
+* Extracts TO field only
+* Supports:
+ * GMail
+ * Yahoo Mail
+ * System default mail client
+* Can open mail service inL
+ * Current window
+ * New window
+ * New tab (context menu only)
