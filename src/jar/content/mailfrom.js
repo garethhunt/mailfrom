@@ -68,7 +68,7 @@ var oMailFrom = {
 		// If this is the System Demail Mail Client
 		if (oMailFromUtil.getPreferenceDefaultServiceKey() != "default") {
 			// Replace the email address
-			preferredServiceUrl = oMailFrom.setServiceUrlWithParams(oMailFromUtil.getPreferenceDefaultServiceKey(), oAnchor.href)
+			var preferredServiceUrl = oMailFrom.setServiceUrlWithParams(oMailFromUtil.getPreferenceDefaultServiceKey(), oAnchor.href)
 			
 			// Get the preferred URL target
 			var iOpenIn = oMailFromUtil.getPreferenceOpenIn()
@@ -85,7 +85,6 @@ var oMailFrom = {
 			}
 		} // Else, this is the default local email service, so do not modify the behaviour
 		oMailFromUtil.debug("Exiting updateMailtoURL(): " + oAnchor.href)
-		return preferredServiceUrl
 	},
 	
 	/*
