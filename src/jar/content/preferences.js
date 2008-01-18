@@ -96,7 +96,6 @@ var oMailFromPreferences = {
 		}
 		
 		// Disable the set-default button, if the service is not enabled
-		//alert(document.getElementById("pref-" + selectedService + "-enabled".value)
 		if (!document.getElementById("pref-" + selectedService + "-enabled").value) {
 			document.getElementById("cmd-set-default").setAttribute("disabled", "true")
 		}
@@ -104,13 +103,7 @@ var oMailFromPreferences = {
 		// Only enable the delete button if the service key contains the word 'custom'
 		var re = new RegExp("custom-[a-zA-Z0-9]*")
 		
-		if (selectedService.search(re) != -1) {
-			document.getElementById("cmd-edit-service").setAttribute("disabled", "false")
-			document.getElementById("cmd-remove-service").setAttribute("disabled", "false")
-		} else {
-			document.getElementById("cmd-edit-service").setAttribute("disabled", "true")
-			document.getElementById("cmd-remove-service").setAttribute("disabled", "true")
-		}
+		// TODO Reinstate the edit and remove buttons once custom services are added
 		oMailFromUtil.debug("Exiting mailServiceSelected")
 	},
 	
