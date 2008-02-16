@@ -6,6 +6,7 @@ var oMailFrom = {
 	strings: null,
 	urlRE: new RegExp("mailto\\:", "i"),
 	replaceTo: "$TO",
+	replaceSubject: "$SUBJECT",
 	
 	/*
 	 * Initialise the addon, setup event listeners
@@ -143,6 +144,7 @@ var oMailFrom = {
 		if (sServiceUrl.length > 0) {
 			// Set $TO
 			sServiceUrl = sServiceUrl.replace(oMailFrom.replaceTo, oMailFromUtil.getEmailFromHref(sHref))
+			sServiceUrl = sServiceUrl.replace(oMailFrom.replaceSubject, oMailFromUtil.getSubjectFromHref(sHref))
 			// TODO Extract the subject from the query string 
 		} else { // The service has no URL, so it must be the default service
 			sServiceUrl = sHref

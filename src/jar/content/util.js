@@ -93,6 +93,22 @@ var oMailFromUtil = {
 		oMailFromUtil.debug("Exiting getEmailFromHref: " + aEmail[1])
 		return aEmail[1]
 	},
+  
+  getSubjectFromHref: function(sHref) {
+		oMailFromUtil.debug("Entered getSubjectFromHref: " + sHref)
+		var re = new RegExp(".*subject=(.[^&]*)&?.*", "i")
+		var aSubject = re.exec(sHref)
+    if (aSubject != null) {
+      for (var i = 0; i < aSubject.length; i++) {
+        oMailFromUtil.debug("aSubject: " + i + ", " + aSubject[i])
+      }
+    } else {
+      aSubject = new Array()
+      aSubject[1] = ""
+    }
+		oMailFromUtil.debug("Exiting getSubjectFromHref: " + aSubject[1])
+		return aSubject[1]
+  },
 	
 	/*
 	 * A simple debug method.  This can be switched on by updated the preference 'extensions.mailfrom.debug' in about:config
