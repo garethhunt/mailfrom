@@ -80,8 +80,7 @@ var oMailFromUtil = {
 	},
 	
 	/*
-	 * Extract the email address from the anchor tag provided
-	 * TODO If there is a query string, strip it from the email
+	 * Extract the To email address from the anchor tag provided
 	 */
 	getEmailFromHref: function(sHref) {
 		oMailFromUtil.debug("Entered getEmailFromHref: " + sHref)
@@ -94,20 +93,25 @@ var oMailFromUtil = {
 		return aEmail[1]
 	},
   
-  getSubjectFromHref: function(sHref) {
-		oMailFromUtil.debug("Entered getSubjectFromHref: " + sHref)
-		var re = new RegExp(".*subject=(.[^&]*)&?.*", "i")
-		var aSubject = re.exec(sHref)
-    if (aSubject != null) {
-      for (var i = 0; i < aSubject.length; i++) {
-        oMailFromUtil.debug("aSubject: " + i + ", " + aSubject[i])
+  /*
+   * Extract a parameter from the URL
+   * This works for: subject, cc, bcc, body
+   */
+  getParameterFromHref: function(sHref, token) {
+		oMailFromUtil.debug("Entered getParameterFromHref: " + sHref + ", " + token)
+    
+		var re = new RegExp(".*[&\?]" + token + "=(.[^&]*)&?.*", "i")
+		var aParam = re.exec(sHref)
+    if (aParam != null) {
+      for (var i = 0; i < aParam.length; i++) {
+        oMailFromUtil.debug("aParam: " + i + ", " + aParam[i])
       }
     } else {
-      aSubject = new Array()
-      aSubject[1] = ""
+      aParam = new Array()
+      aParam[1] = ""
     }
-		oMailFromUtil.debug("Exiting getSubjectFromHref: " + aSubject[1])
-		return aSubject[1]
+		oMailFromUtil.debug("Exiting getParameterFromHref: " + aParam[1])
+		return aParam[1]
   },
 	
 	/*

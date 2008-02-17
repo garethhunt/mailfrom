@@ -5,6 +5,9 @@ var oMailFrom = {
 	// Localised string properties bundle
 	strings: null,
 	urlRE: new RegExp("mailto\\:", "i"),
+	replaceBcc: "$BCC",
+	replaceBody: "$BODY",
+	replaceCc: "$CC",
 	replaceTo: "$TO",
 	replaceSubject: "$SUBJECT",
 	
@@ -144,8 +147,10 @@ var oMailFrom = {
 		if (sServiceUrl.length > 0) {
 			// Set $TO
 			sServiceUrl = sServiceUrl.replace(oMailFrom.replaceTo, oMailFromUtil.getEmailFromHref(sHref))
-			sServiceUrl = sServiceUrl.replace(oMailFrom.replaceSubject, oMailFromUtil.getSubjectFromHref(sHref))
-			// TODO Extract the subject from the query string 
+			sServiceUrl = sServiceUrl.replace(oMailFrom.replaceSubject, oMailFromUtil.getParameterFromHref(sHref, "subject"))
+			sServiceUrl = sServiceUrl.replace(oMailFrom.replaceCc, oMailFromUtil.getParameterFromHref(sHref, "cc"))
+			sServiceUrl = sServiceUrl.replace(oMailFrom.replaceBcc, oMailFromUtil.getParameterFromHref(sHref, "bcc"))
+			sServiceUrl = sServiceUrl.replace(oMailFrom.replaceBody, oMailFromUtil.getParameterFromHref(sHref, "body"))
 		} else { // The service has no URL, so it must be the default service
 			sServiceUrl = sHref
 		}
@@ -160,13 +165,13 @@ var oMailFrom = {
 		
 		switch (iOpenIn) {
 			case 0: // New window
-				action = "window.open('" + sServiceUrl + "', null)"
+				action = "window.open(\"" + sServiceUrl + "\", null)"
 				break
 			case 1: // New tab
-				action = "gBrowser.addTab('" + sServiceUrl + "', null)"
+				action = "gBrowser.addTab(\"" + sServiceUrl + "\", null)"
 				break
 			default: // Current tab
-				action =  "gBrowser.loadURI('" + sServiceUrl + "')"
+				action =  "gBrowser.loadURI(\"" + sServiceUrl + "\")"
 		}
 		return action
 	}
