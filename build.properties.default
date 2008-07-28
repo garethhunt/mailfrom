@@ -16,4 +16,4 @@ xpidl.exec=xpidl.exe
 build.mozilla.firefox.home=C:/Program Files/Mozilla Firefox
 build.mozilla.firefox.extension.name=mailfrom
 build.mozilla.firefox.extension.uuid={5777d53f-b496-4129-a39a-ea1c52f01fba}
-build.mozilla.firefox.extension.home=${user.home}/Application Data/Mozilla/Firefox/Profiles/uhimu98v.devel/extensions
+build.mozilla.firefox.extension.home=${user.home}/Application Data/Mozilla/Firefox/Profiles/addondevelopment/extensions
