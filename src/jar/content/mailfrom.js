@@ -72,10 +72,15 @@ var oMailFrom = {
 		// If this is the System Demail Mail Client
 		if (oMailFromUtil.getPreferenceDefaultServiceKey() != "default") {
 			// Replace the email address
-			var preferredServiceUrl = oMailFrom.setServiceUrlWithParams(oMailFromUtil.getPreferenceDefaultServiceKey(), oAnchor.href)
+			var strHref = oAnchor.href
+			oMailFromUtil.debug("strHref = " + strHref)
+			var preferredServiceUrl = oMailFrom.setServiceUrlWithParams(oMailFromUtil.getPreferenceDefaultServiceKey(), strHref.replace(/'/g,"`"))
+			oMailFromUtil.debug("preferredServiceUrl = " + preferredServiceUrl)
 			
 			// Get the preferred URL target
 			var iOpenIn = oMailFromUtil.getPreferenceOpenIn()
+			preferredServiceUrl = preferredServiceUrl.replace(/'/g, "`")
+			oMailFromUtil.debug("preferredServiceUrl = " + preferredServiceUrl)
 			
 			switch (iOpenIn) {
 				case 0: // New window
@@ -147,10 +152,12 @@ var oMailFrom = {
 		if (sServiceUrl.length > 0) {
 			// Set $TO
 			sServiceUrl = sServiceUrl.replace(oMailFrom.replaceTo, oMailFromUtil.getEmailFromHref(sHref))
-			sServiceUrl = sServiceUrl.replace(oMailFrom.replaceSubject, oMailFromUtil.getParameterFromHref(sHref, "subject"))
+			var strSubject = oMailFromUtil.getParameterFromHref(sHref, "subject").replace(/'/g, "`")
+			sServiceUrl = sServiceUrl.replace(oMailFrom.replaceSubject, strSubject)
 			sServiceUrl = sServiceUrl.replace(oMailFrom.replaceCc, oMailFromUtil.getParameterFromHref(sHref, "cc"))
 			sServiceUrl = sServiceUrl.replace(oMailFrom.replaceBcc, oMailFromUtil.getParameterFromHref(sHref, "bcc"))
-			sServiceUrl = sServiceUrl.replace(oMailFrom.replaceBody, oMailFromUtil.getParameterFromHref(sHref, "body"))
+			var strBody = oMailFromUtil.getParameterFromHref(sHref, "body").replace(/'/g, "`")
+			sServiceUrl = sServiceUrl.replace(oMailFrom.replaceBody, strBody)
 		} else { // The service has no URL, so it must be the default service
 			sServiceUrl = sHref
 		}
@@ -159,6 +166,7 @@ var oMailFrom = {
 	},
 	
 	setContextOnClick: function(sServiceUrl) {
+		oMailFromUtil.debug("Entered setContextOnClick: " + sServiceUrl)
 		// Get the preferred URL target
 		var iOpenIn = oMailFromUtil.getPreferenceOpenIn()
 		var action
@@ -168,11 +176,13 @@ var oMailFrom = {
 				action = "window.open(\"" + sServiceUrl + "\", null)"
 				break
 			case 1: // New tab
-				action = "gBrowser.addTab(\"" + sServiceUrl + "\", null)"
+				action = "gBrowser.addTab(\"" + sServiceUrl + "\")"
 				break
 			default: // Current tab
 				action =  "gBrowser.loadURI(\"" + sServiceUrl + "\")"
 		}
+		oMailFromUtil.debug("setContextOnClick action: " + action)
+		oMailFromUtil.debug("Exiting setContextOnClick")
 		return action
 	}
 }

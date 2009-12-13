@@ -2,6 +2,11 @@
 
 See bugzilla for roadmap
 
+Release 0.2.5, 13 December 2009
+
+* Added Windows Live mail support
+* Fixed Firefox 3.6 compatibility defect
+
 Release 0.2.1, 11 May 2008
 
 * Added support for Firefox 3.0b5
